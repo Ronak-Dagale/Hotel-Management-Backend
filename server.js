@@ -93,7 +93,8 @@ const app = express()
 const server = createServer(app)
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    //origin: process.env.CLIENT_URL || 'http://localhost:3000',
+     origins: "*:*",
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   },
@@ -101,7 +102,8 @@ const io = new Server(server, {
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+   // origin: process.env.CLIENT_URL || 'http://localhost:3000',
+     origins: "*:*",
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   })
