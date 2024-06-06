@@ -5,7 +5,7 @@ const authMiddleware = (req, res, next) => {
   // console.log(req)
   //console.log(tokenHeader)
   if (!tokenHeader || !tokenHeader.startsWith('Bearer ')) {
-    console.log('No token, authorization denied')
+    //console.log('No token, authorization denied')
     return res.status(401).json({ message: 'No token, authorization denied' })
   }
 

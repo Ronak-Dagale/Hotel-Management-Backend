@@ -94,7 +94,7 @@ const server = createServer(app)
 const io = new Server(server, {
   cors: {
     //origin: process.env.CLIENT_URL || 'http://localhost:3000',
-     origins: "*:*",
+    origins: '*:*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   },
@@ -102,8 +102,8 @@ const io = new Server(server, {
 
 app.use(
   cors({
-   // origin: process.env.CLIENT_URL || 'http://localhost:3000',
-     origins: "*:*",
+    // origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    origins: '*:*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   })
@@ -147,14 +147,14 @@ io.on('connection', (socket) => {
   //console.log(`Socket  connected`)
   // console.log(socket)
   socket.on('sendMessage', (message) => {
-    console.log(message)
+    // console.log(message)
   })
 
   socket.on('disconnect', () => {
-    console.log(`Socket ${socket.id} disconnected`)
+    // console.log(`Socket ${socket.id} disconnected`)
   })
 })
 
 server.listen(port, () => {
-  console.log(`Server is running on port ${port}`)
+  //  console.log(`Server is running on port ${port}`)
 })

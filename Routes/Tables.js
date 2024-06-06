@@ -85,7 +85,7 @@ module.exports = (io) => {
   // });
 
   router.put('/:tableId/order', authMiddleware, async (req, res) => {
-    console.log(req.body)
+    // console.log(req.body)
     try {
       const { tableId } = req.params
       //console.log(tableId)
@@ -114,7 +114,7 @@ module.exports = (io) => {
         }
         //console.log(index);
         table.order.splice(index, 1)
-        console.log(table.order)
+        // console.log(table.order)
         io.emit('orderDeleted', tableId, orderItem) // Remove the item from the order
       } else {
         // Add or update the order item
@@ -231,7 +231,7 @@ module.exports = (io) => {
     authMiddleware,
     roleMiddleware('cook'),
     async (req, res) => {
-      console.log(req.body)
+      // console.log(req.body)
       try {
         const { tableId } = req.params
         const { name, qty, note, price } = req.body
@@ -259,7 +259,7 @@ module.exports = (io) => {
         await table.save()
 
         io.emit('orderStatusOngoing', tableId, orderItem)
-        console.log('Event emiited')
+        // console.log('Event emiited')
         return res.status(200).send(table)
       } catch (error) {
         res
