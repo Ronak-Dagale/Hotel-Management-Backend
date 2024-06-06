@@ -119,10 +119,8 @@ app.use((err, req, res, next) => {
   next()
 })
 
-const MONGODB_URI = 'mongodb://localhost:27017/Hotel'
-// process.env.MONGODB_URI
-//  ||
-// 'mongodb+srv://ronakhotel:hotel%40123@atlascluster.lcfwosy.mongodb.net/Hotel?retryWrites=true&w=majority&appName=AtlasCluster'
+const MONGODB_URI = process.env.MONGODB_URI
+
 mongoose
   .connect(MONGODB_URI)
   .then(() => console.log('MongoDB connection established successfully'))
