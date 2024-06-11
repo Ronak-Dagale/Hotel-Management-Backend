@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const FoodCategory = require('../models/Category')
+const FoodItem = require('../models/Items')
 const { authMiddleware, roleMiddleware } = require('../Middlewares/auth')
 // Create a new food category
 router.post(
@@ -47,8 +48,18 @@ router.put(
         return res.status(404).json({ msg: 'Category not found' })
       }
 
+      const originalCategoryName = category.categoryname
+
       category.categoryname = categoryname
       category.status = status
+      await category.save()
+
+      // Update category name and status of all food items belonging to the original category name
+      await FoodItem.updateMany(
+        { category: originalCategoryName },
+        { category: categoryname, status: status }
+      )
+
       await category.save()
       res.json(category)
     } catch (error) {
@@ -69,7 +80,7 @@ router.delete(
       if (!category) {
         return res.status(404).json({ msg: 'Category not found' })
       }
-
+      await FoodItem.deleteMany({ category: category.categoryname })
       await FoodCategory.findByIdAndDelete(req.params.id)
       res.json({ msg: 'Category removed' })
     } catch (error) {
