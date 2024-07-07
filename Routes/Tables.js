@@ -3,6 +3,7 @@ const router = express.Router()
 const Table = require('../models/Table')
 const CompletedOrder = require('../models/CompletedOrder')
 const { authMiddleware, roleMiddleware } = require('../Middlewares/auth')
+const MonthlyRevenue = require('../models/MonthlyRevenue')
 
 module.exports = (io) => {
   // 1. Delete the table with the highest table number
@@ -213,6 +214,15 @@ module.exports = (io) => {
 
         await CompletedOrder.create(completedOrder)
 
+        const month = `${completedOrder.timestamp.getFullYear()}-${String(
+          completedOrder.timestamp.getMonth() + 1
+        ).padStart(2, '0')}`
+        await MonthlyRevenue.findOneAndUpdate(
+          { month },
+          { $inc: { revenue: totalBill } },
+          { upsert: true, new: true }
+        )
+
         table.condition = ''
         table.order = []
         await table.save()
@@ -301,7 +311,7 @@ module.exports = (io) => {
 
         orderItem.status = 'done'
         await table.save()
-        console.log(table.order)
+        // console.log(table.order)
         io.emit('orderStatusDone', tableId, orderItem)
         return res.status(200).send(table)
       } catch (error) {
